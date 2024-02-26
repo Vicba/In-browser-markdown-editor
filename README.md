@@ -1,22 +1,46 @@
-# next-template
+# In-browser markdown editor
 
-A Next.js 13 template for building apps with Radix UI and Tailwind CSS.
+I found this challenge at frontendmentor.io [here](https://www.frontendmentor.io/challenges/inbrowser-markdown-editor-r16TrrQX9).
 
-## Usage
+I didn't want to spend a monthly subscription for this on the platform because I'm a broke student. So I took the idea and build it with my own twist. (Which is way more fun) 🙃
+
+- [In-browser markdown editor](#in-browser-markdown-editor)
+  - [🚀 Usage](#-usage)
+  - [🌟 Features](#-features)
+  - [🎓 What I learned](#-what-i-learned)
+
+## 🚀 Usage
+
+1. Clone the repository
 
 ```bash
-npx create-next-app -e https://github.com/shadcn/next-template
+git clone https://github.com/Vicba/In-browser-markdown-editor.git
 ```
 
-## Features
+2. Install the dependencies
+
+```bash
+npm install
+```
+
+3. Run the development server
+
+```bash
+npm run dev
+```
+
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## 🌟 Features
 
 - Next.js 13 App Directory
-- Radix UI Primitives
+- Chadcn UI
 - Tailwind CSS
 - Icons from [Lucide](https://lucide.dev)
 - Dark mode with `next-themes`
-- Tailwind CSS class sorting, merging and linting.
 
-## License
+## 🎓 What I learned
 
-Licensed under the [MIT license](https://github.com/shadcn/ui/blob/main/LICENSE.md).
+Currently just working on the project. I'll update this section later. Spoiler: it will be markdown in the browser. 😅
+
+[def]: #in-browser-markdown-editor
