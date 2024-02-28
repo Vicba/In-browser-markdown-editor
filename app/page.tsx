@@ -29,7 +29,6 @@ export default function IndexPage() {
             id="markdown-editor"
             className="flex min-h-full min-w-full items-center justify-center p-6 bg-transparent text-xs resize-none"
             onChange={(e) => setText(e.target.value)}
-            value={text}
             autoFocus
             placeholder="Type your markdown here..."
           >
