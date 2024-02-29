@@ -1,6 +1,6 @@
 "use client"
 
-import React, { use, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Plus } from "lucide-react"
 
 import { doc } from "@/types/markdown_docs"
@@ -22,6 +22,8 @@ import { DialogCloseButton } from "./dialogCloseButton"
 export default function SideBar({ title }: { title: string }) {
   // const { retrievedData } = useLocalStorage("mk-docs")
   // console.log("documents", retrievedData)
+  const test = [{ file_name: "test" }]
+  const [documents, setDocuments] = useLocalStorage("mk-docs", test)
 
   return (
     <div>
@@ -29,26 +31,22 @@ export default function SideBar({ title }: { title: string }) {
         <SheetTrigger className="inline-block font-bold">{title}</SheetTrigger>
         <SheetContent side={"left"}>
           <SheetHeader>
-            <SheetTitle>Are you absolutely sure?</SheetTitle>
-            <SheetDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
+            <SheetTitle className="tracking-wider pb-1">MARKDOWN</SheetTitle>
+            <SheetDescription className="pb-6">
+              <p className="pb-6">Create New Documents</p>
+              <DialogCloseButton />
             </SheetDescription>
           </SheetHeader>
           <div className="grid gap-4 py-4">
-            sqdf
-            {/* {retrievedData?.length} */}
-            {/* {documents?.map((doc, idx: number) => (
-              <div key={idx} className=" text-white gap-4">
-                {doc.file_name}
+            {documents?.map((doc: doc, idx: number) => (
+              <div key={idx} className="text-white gap-4">
+                <h1 className="text-black dark:text-white hover:underline hover:underline-offset-2 hover:cursor-pointer">
+                  {doc.file_name}
+                </h1>
+                <p className="text-sm text-slate-400">{doc.createdAt}</p>
               </div>
-            ))} */}
+            ))}
           </div>
-          <SheetFooter>
-            <SheetClose asChild>
-              <DialogCloseButton />
-            </SheetClose>
-          </SheetFooter>
         </SheetContent>
       </Sheet>
     </div>

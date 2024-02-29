@@ -25,8 +25,6 @@ export default function IndexPage() {
   //   setInitializedData("Initialized Value");
   // }, [setInitializedData]);
 
-  // const [documents, setDocuments] = useLocalStorage("mk-docs", default_mk_docs)
-
   const options = { code: CodeBlock, pre: Pre }
 
   return (

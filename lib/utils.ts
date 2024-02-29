@@ -7,13 +7,13 @@ export function cn(...inputs: ClassValue[]) {
 
 export const default_mk_docs = [
   {
-    createdAt: "04-01-2022",
+    createdAt: new Date("2022-04-01"),
     file_name: "welcome.md",
     content:
       "# Welcome to Markdown\n\nMarkdown is a lightweight markup language...",
   },
   {
-    createdAt: "05-01-2022",
+    createdAt: new Date("2022-05-01"),
     file_name: "Untitled.md",
     content: "",
   },

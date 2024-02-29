@@ -18,7 +18,7 @@ export function DialogCloseButton() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="flex flex-row gap-3">
+        <Button variant="default" className="flex flex-row gap-3">
           <Plus size={16} />
           New Document
         </Button>
