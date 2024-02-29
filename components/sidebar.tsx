@@ -1,8 +1,10 @@
 "use client"
 
-import React from "react"
+import React, { use, useEffect, useState } from "react"
 import { Plus } from "lucide-react"
 
+import { doc } from "@/types/markdown_docs"
+import { useLocalStorage } from "@/hooks/useLocalStorage"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -18,6 +20,9 @@ import {
 import { DialogCloseButton } from "./dialogCloseButton"
 
 export default function SideBar({ title }: { title: string }) {
+  // const { retrievedData } = useLocalStorage("mk-docs")
+  // console.log("documents", retrievedData)
+
   return (
     <div>
       <Sheet key={"left"}>
@@ -31,12 +36,13 @@ export default function SideBar({ title }: { title: string }) {
             </SheetDescription>
           </SheetHeader>
           <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              blablabla1
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              blablabal2
-            </div>
+            sqdf
+            {/* {retrievedData?.length} */}
+            {/* {documents?.map((doc, idx: number) => (
+              <div key={idx} className=" text-white gap-4">
+                {doc.file_name}
+              </div>
+            ))} */}
           </div>
           <SheetFooter>
             <SheetClose asChild>

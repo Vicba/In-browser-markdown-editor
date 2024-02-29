@@ -1,10 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Markdown from "react-markdown"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 import { materialOceanic } from "react-syntax-highlighter/dist/cjs/styles/prism"
 
+import { default_mk_docs } from "@/lib/utils"
+import { useLocalStorage } from "@/hooks/useLocalStorage"
 import {
   ResizableHandle,
   ResizablePanel,
@@ -16,13 +18,22 @@ import { Textarea } from "@/components/ui/textarea"
 export default function IndexPage() {
   const [text, setText] = useState<string>("")
 
+  const [documents, setDocuments] = useLocalStorage("mk-docs", default_mk_docs)
+
+  // useEffect(() => {
+  //   // Perform initialization logic here
+  //   setInitializedData("Initialized Value");
+  // }, [setInitializedData]);
+
+  // const [documents, setDocuments] = useLocalStorage("mk-docs", default_mk_docs)
+
   const options = { code: CodeBlock, pre: Pre }
 
   return (
-    <div className="container h-screen grid items-center gap-6 pb-8 pt-6 md:py-5">
+    <div className="container h-screen  grid items-center pb-8 pt-6 md:py-5">
       <ResizablePanelGroup
         direction="horizontal"
-        className="min-h-full min-w-full rounded-lg border overflow"
+        className="max-h-full min-w-full rounded-lg border overflow"
       >
         <ResizablePanel defaultSize={50}>
           <Textarea

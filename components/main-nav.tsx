@@ -15,7 +15,7 @@ interface MainNavProps {
 export function MainNav({ items }: MainNavProps) {
   return (
     <div className="flex gap-6 md:gap-10">
-      <SideBar title={siteConfig.name} description="Navigation" />
+      <SideBar title={siteConfig.name} />
       {items?.length ? (
         <nav className="flex gap-6">
           {items?.map(
