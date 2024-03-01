@@ -1,5 +1,10 @@
+import { useState } from "react"
+import { useSelectedDoc } from "@/context/DocContext"
 import { Copy, Plus } from "lucide-react"
+import { v4 as uuidv4 } from "uuid"
 
+import { default_mk_docs } from "@/lib/utils"
+import { useLocalStorage } from "@/hooks/useLocalStorage"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -15,6 +20,21 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 export function DialogCloseButton() {
+  const [inputValue, setInputValue] = useState<string>("Untitled.md")
+  const [documents, setDocuments] = useLocalStorage("mk-docs", default_mk_docs)
+  const { setSelectedDoc } = useSelectedDoc()
+
+  const handleCreateNewDocument = (file_name?: string) => {
+    const newDoc = {
+      doc_id: uuidv4(),
+      createdAt: new Date().toLocaleDateString("en-US"),
+      file_name: file_name ?? "Untitled.md",
+      content: "",
+    }
+    setDocuments([...documents, newDoc])
+    setSelectedDoc(newDoc)
+  }
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -33,7 +53,11 @@ export function DialogCloseButton() {
             <Label htmlFor="link" className="sr-only">
               Link
             </Label>
-            <Input id="link" defaultValue="Untitled.md" />
+            <Input
+              id="link"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+            />
           </div>
         </div>
         <DialogFooter className="sm:justify-start">
@@ -42,6 +66,7 @@ export function DialogCloseButton() {
               type="button"
               variant="default"
               className="flex flex-row gap-3 "
+              onClick={() => handleCreateNewDocument(inputValue)}
             >
               <Plus size={16} />
               Create

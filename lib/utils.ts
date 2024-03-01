@@ -9,14 +9,14 @@ export function cn(...inputs: ClassValue[]) {
 export const default_mk_docs = [
   {
     doc_id: uuidv4(),
-    createdAt: "2022-04-01",
+    createdAt: new Date(2022, 0, 1).toLocaleDateString("en-US"),
     file_name: "welcome.md",
     content:
       "# Welcome to Markdown\n\nMarkdown is a lightweight markup language...",
   },
   {
     doc_id: uuidv4(),
-    createdAt: "2022-05-01",
+    createdAt: new Date(2022, 0, 2).toLocaleDateString("en-US"),
     file_name: "Untitled.md",
     content: "",
   },
