@@ -1,10 +1,12 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useSelectedDoc } from "@/context/DocContext"
 import Markdown from "react-markdown"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 import { materialOceanic } from "react-syntax-highlighter/dist/cjs/styles/prism"
 
+import { doc } from "@/types/markdown_docs"
 import { default_mk_docs } from "@/lib/utils"
 import { useLocalStorage } from "@/hooks/useLocalStorage"
 import {
@@ -19,8 +21,14 @@ export default function IndexPage() {
   const [text, setText] = useState<string>("")
 
   const [documents, setDocuments] = useLocalStorage("mk-docs", default_mk_docs)
+  const { selectedDoc, setSelectedDoc } = useSelectedDoc()
 
-  console.log("documents", documents)
+  useEffect(() => {
+    console.log("selectedDoc", selectedDoc)
+    if (selectedDoc) {
+      setText(selectedDoc.content)
+    }
+  }, [selectedDoc])
 
   const options = { code: CodeBlock, pre: Pre }
 
