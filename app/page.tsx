@@ -20,10 +20,7 @@ export default function IndexPage() {
 
   const [documents, setDocuments] = useLocalStorage("mk-docs", default_mk_docs)
 
-  // useEffect(() => {
-  //   // Perform initialization logic here
-  //   setInitializedData("Initialized Value");
-  // }, [setInitializedData]);
+  console.log("documents", documents)
 
   const options = { code: CodeBlock, pre: Pre }
 

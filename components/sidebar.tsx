@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react"
 import { Plus } from "lucide-react"
 
 import { doc } from "@/types/markdown_docs"
+import { default_mk_docs } from "@/lib/utils"
 import { useLocalStorage } from "@/hooks/useLocalStorage"
 import { Button } from "@/components/ui/button"
 import {
@@ -20,10 +21,9 @@ import {
 import { DialogCloseButton } from "./dialogCloseButton"
 
 export default function SideBar({ title }: { title: string }) {
-  // const { retrievedData } = useLocalStorage("mk-docs")
-  // console.log("documents", retrievedData)
-  const test = [{ file_name: "test" }]
-  const [documents, setDocuments] = useLocalStorage("mk-docs", test)
+  const [documents, setDocuments] = useLocalStorage("mk-docs", default_mk_docs)
+
+  // console.log(documents.map((doc: doc) => console.log(typeof doc.createdAt)))
 
   return (
     <div>
