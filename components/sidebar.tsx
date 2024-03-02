@@ -2,10 +2,10 @@
 
 import React, { useEffect, useState } from "react"
 import { useSelectedDoc } from "@/context/DocContext"
-import { Plus } from "lucide-react"
+import { Download, DownloadIcon, Plus } from "lucide-react"
 
 import { doc } from "@/types/markdown_docs"
-import { default_mk_docs } from "@/lib/utils"
+import { default_mk_docs, downloadFile } from "@/lib/utils"
 import { useLocalStorage } from "@/hooks/useLocalStorage"
 import { Button } from "@/components/ui/button"
 import {
@@ -27,6 +27,13 @@ export default function SideBar({ title }: { title: string }) {
 
   // console.log(documents.map((doc: doc) => console.log(typeof doc.createdAt)))
 
+  const handleDownload = (doc: doc) => {
+    console.log("Download")
+    const { file_name, content } = doc
+
+    downloadFile(file_name, content)
+  }
+
   return (
     <>
       <Sheet key={"left"}>
@@ -41,16 +48,27 @@ export default function SideBar({ title }: { title: string }) {
           </SheetHeader>
           <div className="grid gap-4 py-4">
             {documents?.map((doc: doc, idx: number) => (
-              <div key={idx} className="text-white gap-4">
-                <SheetTrigger>
-                  <h1
-                    onClick={() => setSelectedDoc(doc)}
-                    className="text-black dark:text-white hover:underline hover:underline-offset-2 hover:cursor-pointer"
-                  >
-                    {doc.file_name}
-                  </h1>
-                </SheetTrigger>
-                <p className="text-sm text-slate-400">{doc.createdAt}</p>
+              <div
+                key={idx}
+                className="text-white gap-4 flex flex-row items-center justify-between"
+              >
+                <div className="flex flex-col">
+                  <SheetTrigger>
+                    <h1
+                      onClick={() => setSelectedDoc(doc)}
+                      className="text-black text-start dark:text-white hover:underline hover:underline-offset-2 hover:cursor-pointer"
+                    >
+                      {doc.file_name}
+                    </h1>
+                  </SheetTrigger>
+                  <p className="text-sm text-slate-400">{doc.createdAt}</p>
+                </div>
+
+                <DownloadIcon
+                  size={20}
+                  className=" text-black dark:text-slate-400 hover:text-slate-500 dark:hover:text-slate-200 hover:cursor-pointer"
+                  onClick={() => handleDownload(doc)}
+                />
               </div>
             ))}
           </div>
