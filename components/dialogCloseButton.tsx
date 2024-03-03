@@ -1,10 +1,9 @@
 import { useState } from "react"
-import { useSelectedDoc } from "@/context/DocContext"
-import { Copy, Plus } from "lucide-react"
+import { useMarkdownContext } from "@/context/MarkdownContext"
+import { Copy, PencilIcon, Plus } from "lucide-react"
 import { v4 as uuidv4 } from "uuid"
 
 import { default_mk_docs } from "@/lib/utils"
-import { useLocalStorage } from "@/hooks/useLocalStorage"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -19,34 +18,58 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-export function DialogCloseButton() {
-  const [inputValue, setInputValue] = useState<string>("Untitled.md")
-  const [documents, setDocuments] = useLocalStorage("mk-docs", default_mk_docs)
-  const { setSelectedDoc } = useSelectedDoc()
+type Props = {
+  btnText?: string
+  title: string
+  description: string
+  defaultValue: string
+  btnSubmitTxt: string
+  type: "create" | "edit"
+}
 
-  const handleCreateNewDocument = (file_name?: string) => {
-    const newDoc = {
-      doc_id: uuidv4(),
-      createdAt: new Date().toLocaleDateString("en-US"),
-      file_name: file_name ?? "Untitled.md",
-      content: "",
+export function DialogCloseButton({
+  btnText,
+  title,
+  description,
+  defaultValue,
+  btnSubmitTxt,
+  type,
+}: Props) {
+  const [inputValue, setInputValue] = useState<string>(defaultValue)
+  const { addDoc, editNameDoc } = useMarkdownContext()
+
+  const handleCreateNewDocument = (file_name: string) => {
+    if (file_name === "") {
+      alert("Please enter a file name")
+      return
     }
-    setDocuments([...documents, newDoc])
-    setSelectedDoc(newDoc)
+    addDoc(file_name)
   }
+
+  // const handleEditDocument = (file_name: string) => {
+  //   if (file_name === "") {
+  //     alert("Please enter a file name")
+  //     return
+  //   }
+  //   editNameDoc(index, file_name)
+  // }
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="default" className="flex flex-row gap-3">
-          <Plus size={16} />
-          New Document
-        </Button>
+        {type === "edit" ? (
+          <PencilIcon size={16} className="cursor-pointer" />
+        ) : (
+          <Button variant="default" className="flex flex-row gap-3">
+            <Plus size={16} />
+            {btnText}
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Create New Document</DialogTitle>
-          <DialogDescription>Document Name</DialogDescription>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         <div className="flex items-center space-x-2">
           <div className="grid flex-1 gap-2">
@@ -69,7 +92,7 @@ export function DialogCloseButton() {
               onClick={() => handleCreateNewDocument(inputValue)}
             >
               <Plus size={16} />
-              Create
+              {btnSubmitTxt}
             </Button>
           </DialogClose>
         </DialogFooter>

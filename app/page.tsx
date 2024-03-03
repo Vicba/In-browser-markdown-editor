@@ -1,14 +1,12 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { useSelectedDoc } from "@/context/DocContext"
+import { useContext, useEffect, useState } from "react"
+import { useMarkdownContext } from "@/context/MarkdownContext"
 import Markdown from "react-markdown"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 import { materialOceanic } from "react-syntax-highlighter/dist/cjs/styles/prism"
 
-import { doc } from "@/types/markdown_docs"
-import { default_mk_docs } from "@/lib/utils"
-import { useLocalStorage } from "@/hooks/useLocalStorage"
+import { cn, default_mk_docs } from "@/lib/utils"
 import {
   ResizableHandle,
   ResizablePanel,
@@ -18,46 +16,39 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Textarea } from "@/components/ui/textarea"
 
 export default function IndexPage() {
-  const [text, setText] = useState<string>("")
-
-  const [documents, setDocuments] = useLocalStorage("mk-docs", default_mk_docs)
-  const { selectedDoc, setSelectedDoc } = useSelectedDoc()
-
-  useEffect(() => {
-    console.log("selectedDoc", selectedDoc)
-    if (selectedDoc) {
-      setText(selectedDoc.content)
-    }
-  }, [selectedDoc])
+  const { markdown, handleMarkdownChange, view } = useMarkdownContext()
 
   const options = { code: CodeBlock, pre: Pre }
 
   return (
-    <div className="container h-screen  grid items-center pb-8 pt-6 md:py-5">
+    <div className="container h-screen  items-center pb-8 pt-6 md:py-5">
       <ResizablePanelGroup
         direction="horizontal"
         className="max-h-full min-w-full rounded-lg border overflow"
       >
-        <ResizablePanel defaultSize={50}>
+        <ResizablePanel defaultSize={view ? 50 : 100}>
           <Textarea
             id="markdown-editor"
-            className="flex min-h-full min-w-full items-center justify-center p-6 bg-transparent text-xs resize-none"
-            onChange={(e) => setText(e.target.value)}
-            value={text}
+            className="flex min-h-full min-w-full items-center justify-center p-6 bg-transparent text-xs resize-none rounded-none"
+            onChange={handleMarkdownChange}
+            value={markdown}
             autoFocus
             placeholder="Type your markdown here..."
           >
             <ScrollArea className="h-full w-full"></ScrollArea>
           </Textarea>
         </ResizablePanel>
-        <ResizableHandle withHandle />
-        <ResizablePanel defaultSize={50}>
+        {view && <ResizableHandle withHandle />}
+        <ResizablePanel
+          defaultSize={50}
+          className={cn({ hidden: !view, visible: view })}
+        >
           <ScrollArea className="h-full w-full">
             <Markdown
               components={options}
               className="h-full min-w-full p-6 prose dark:prose-invert text-xs "
             >
-              {text}
+              {markdown}
             </Markdown>
           </ScrollArea>
         </ResizablePanel>

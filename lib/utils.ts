@@ -2,13 +2,13 @@ import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { v4 as uuidv4 } from "uuid"
 
-import { doc } from "@/types/markdown_docs"
+import { doc, markdown_docs } from "@/types/markdown_docs"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const default_mk_docs = [
+export const default_mk_docs: markdown_docs = [
   {
     doc_id: uuidv4(),
     createdAt: new Date(2022, 0, 1).toLocaleDateString("en-US"),

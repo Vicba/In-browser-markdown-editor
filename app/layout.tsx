@@ -1,14 +1,17 @@
+"use client"
+
 import "@/styles/globals.css"
 import { Metadata } from "next"
-import { DocProvider } from "@/context/DocContext"
+import { MarkdownProvider } from "@/context/MarkdownContext"
 
 import { siteConfig } from "@/config/site"
-import { fontSans } from "@/lib/fonts"
+import { fontMono, fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
+import { Toaster } from "@/components/ui/toaster"
 import { SiteHeader } from "@/components/site-header"
 import { ThemeProvider } from "@/components/theme-provider"
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: {
     default: siteConfig.name,
     template: `%s - ${siteConfig.name}`,
@@ -41,12 +44,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
           )}
         >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <DocProvider>
+            <MarkdownProvider>
               <div className="relative flex max-h-screen flex-col">
                 <SiteHeader />
                 {children}
+                <Toaster />
               </div>
-            </DocProvider>
+            </MarkdownProvider>
           </ThemeProvider>
         </body>
       </html>
