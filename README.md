@@ -4,10 +4,12 @@ I found this challenge at frontendmentor.io [here](https://www.frontendmentor.io
 
 I didn't want to spend a monthly subscription for this on the platform because I'm a broke student. So I took the idea and build it with my own twist. (Which is way more fun) 🙃
 
-- [In-browser markdown editor](#in-browser-markdown-editor)
+Right now, I like the current project state. It's quick and easy to use. I might add more features later if I change my mind.
+
   - [🚀 Usage](#-usage)
-  - [🌟 Features](#-features)
+  - [🌟 Tools](#-tools)
   - [🎓 What I learned](#-what-i-learned)
+  - [😮 Features](#-features)
 
 ## 🚀 Usage
 
@@ -31,7 +33,7 @@ npm run dev
 
 4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## 🌟 Features
+## 🌟 Tools
 
 - Next.js 13 App Directory
 - Chadcn UI
@@ -41,6 +43,18 @@ npm run dev
 
 ## 🎓 What I learned
 
-Currently just working on the project. I'll update this section later. Spoiler: it will be markdown in the browser. 😅
+- Learned chadcn ui components like: sheet, resizable, ...
+- Doing side projects one hour a day after work isn't that hard, at the end of the week you see big results.
+- Adding markdown to a project is easier then I thought.
+- Refreshed my knowledge of Tailwind CSS and react context
+- "Failing to plan is planning to fail." - Benjamin Franklin (but made it 😃)
 
-[def]: #in-browser-markdown-editor
+## 😮 Features
+
+Features that I could add if i had more time. Maybe some of them are too complex for the use case.
+
+- auth
+- making it full stack
+- editing the file name (now only possible if you download file)
+
+
