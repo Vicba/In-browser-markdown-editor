@@ -1,10 +1,9 @@
 import * as React from "react"
 import Link from "next/link"
+import { NavItem } from "@/types"
 
-import { NavItem } from "@/types/nav"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
-import { Icons } from "@/components/icons"
 
 import SideBar from "./sidebar"
 
@@ -15,7 +14,7 @@ interface MainNavProps {
 export function MainNav({ items }: MainNavProps) {
   return (
     <div className="flex gap-6 md:gap-10">
-      <SideBar title={siteConfig.name} description="Navigation" />
+      <SideBar title={siteConfig.name} />
       {items?.length ? (
         <nav className="flex gap-6">
           {items?.map(

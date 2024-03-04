@@ -1,4 +1,6 @@
-import { Copy, Plus } from "lucide-react"
+import { useState } from "react"
+import { useMarkdownContext } from "@/context/MarkdownContext"
+import { PencilIcon, Plus } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -14,26 +16,69 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-export function DialogCloseButton() {
+type Props = {
+  btnText?: string
+  title: string
+  description: string
+  defaultValue: string
+  btnSubmitTxt: string
+  type: "create" | "edit"
+}
+
+export function DialogCloseButton({
+  btnText,
+  title,
+  description,
+  defaultValue,
+  btnSubmitTxt,
+  type,
+}: Props) {
+  const [inputValue, setInputValue] = useState<string>(defaultValue)
+  const { addDoc, editFileName } = useMarkdownContext()
+
+  const handleCreateNewDocument = (file_name: string) => {
+    if (file_name === "") {
+      alert("Please enter a file name")
+      return
+    }
+    addDoc(file_name)
+  }
+
+  // const handleEditDocument = (file_name: string) => {
+  //   if (file_name === "") {
+  //     alert("Please enter a file name")
+  //     return
+  //   }
+  //   editNameDoc(index, file_name)
+  // }
+
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="flex flex-row gap-3">
-          <Plus size={16} />
-          New Document
-        </Button>
+        {type === "edit" ? (
+          <PencilIcon size={16} className="cursor-pointer" />
+        ) : (
+          <Button variant="default" className="flex flex-row gap-3">
+            <Plus size={16} />
+            {btnText}
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Create New Document</DialogTitle>
-          <DialogDescription>Document Name</DialogDescription>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         <div className="flex items-center space-x-2">
-          <div className="grid flex-1 gap-2">
+          <div className="grid gap-2">
             <Label htmlFor="link" className="sr-only">
               Link
             </Label>
-            <Input id="link" defaultValue="Untitled.md" />
+            <Input
+              id="link"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+            />
           </div>
         </div>
         <DialogFooter className="sm:justify-start">
@@ -42,9 +87,10 @@ export function DialogCloseButton() {
               type="button"
               variant="default"
               className="flex flex-row gap-3 "
+              onClick={() => handleCreateNewDocument(inputValue)}
             >
-              <Plus size={16} />
-              Create
+              {type === "create" && <Plus size={16} />}
+              {btnSubmitTxt}
             </Button>
           </DialogClose>
         </DialogFooter>
