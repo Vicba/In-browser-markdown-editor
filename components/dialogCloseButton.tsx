@@ -1,9 +1,7 @@
 import { useState } from "react"
 import { useMarkdownContext } from "@/context/MarkdownContext"
-import { Copy, PencilIcon, Plus } from "lucide-react"
-import { v4 as uuidv4 } from "uuid"
+import { PencilIcon, Plus } from "lucide-react"
 
-import { default_mk_docs } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -36,7 +34,7 @@ export function DialogCloseButton({
   type,
 }: Props) {
   const [inputValue, setInputValue] = useState<string>(defaultValue)
-  const { addDoc, editNameDoc } = useMarkdownContext()
+  const { addDoc, editFileName } = useMarkdownContext()
 
   const handleCreateNewDocument = (file_name: string) => {
     if (file_name === "") {
@@ -72,7 +70,7 @@ export function DialogCloseButton({
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         <div className="flex items-center space-x-2">
-          <div className="grid flex-1 gap-2">
+          <div className="grid gap-2">
             <Label htmlFor="link" className="sr-only">
               Link
             </Label>
@@ -91,7 +89,7 @@ export function DialogCloseButton({
               className="flex flex-row gap-3 "
               onClick={() => handleCreateNewDocument(inputValue)}
             >
-              <Plus size={16} />
+              {type === "create" && <Plus size={16} />}
               {btnSubmitTxt}
             </Button>
           </DialogClose>

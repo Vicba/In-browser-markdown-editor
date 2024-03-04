@@ -1,9 +1,8 @@
 "use client"
 
-import { useState } from "react"
 import Link from "next/link"
 import { useMarkdownContext } from "@/context/MarkdownContext"
-import { Eye, EyeIcon, EyeOffIcon, SaveIcon } from "lucide-react"
+import { EyeIcon, EyeOffIcon, SaveIcon } from "lucide-react"
 
 import { siteConfig } from "@/config/site"
 import { Button, buttonVariants } from "@/components/ui/button"
@@ -14,13 +13,13 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { toast } from "./ui/use-toast"
 
 export function SiteHeader() {
-  const { documents, currentDoc, saveDoc, view, setView } = useMarkdownContext()
+  const { currentDoc, saveDoc, view, setView } = useMarkdownContext()
 
   const save = () => {
-    if (currentDoc === false) {
+    if (currentDoc === null) {
       alert("Please create a new document first!")
     } else {
-      saveDoc(currentDoc)
+      saveDoc(currentDoc.doc_id)
       toast({ title: "Success!", description: "Your document has been saved." })
     }
   }
@@ -68,7 +67,9 @@ export function SiteHeader() {
             <ThemeToggle />
           </nav>
           <div className="flex flex-row gap-8 items-center">
-            {currentDoc ? documents[currentDoc].file_name : "Untitled.md"}
+            <div className="hidden md:block">
+              {currentDoc ? currentDoc.file_name : "Untitled.md"}
+            </div>
             <div onClick={changeView} className="cursor-pointer">
               {view ? <EyeIcon size={20} /> : <EyeOffIcon size={20} />}
             </div>

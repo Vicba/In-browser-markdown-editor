@@ -1,12 +1,11 @@
 "use client"
 
-import { useContext, useEffect, useState } from "react"
 import { useMarkdownContext } from "@/context/MarkdownContext"
 import Markdown from "react-markdown"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 import { materialOceanic } from "react-syntax-highlighter/dist/cjs/styles/prism"
 
-import { cn, default_mk_docs } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 import {
   ResizableHandle,
   ResizablePanel,
@@ -62,7 +61,7 @@ export const CodeBlock = ({ ...props }) => {
     <SyntaxHighlighter
       language={props.className?.replace(/(?:lang(?:uage)?-)/, "")}
       style={materialOceanic}
-      wrapLines={true} //
+      wrapLines={true}
       className="not-prose rounded-md bg-transparent"
     >
       {props.children}

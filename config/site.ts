@@ -3,7 +3,7 @@ export type SiteConfig = typeof siteConfig
 export const siteConfig = {
   name: "MARKDOWN",
   description:
-    "Beautifully designed components built with Radix UI and Tailwind CSS.",
+    "In-browser markdown editor with chadcn/ui, Tailwind CSS and Next.js",
   mainNav: [
     // {
     //   title: "Home",

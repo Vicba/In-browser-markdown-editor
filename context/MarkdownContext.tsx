@@ -7,29 +7,21 @@ import React, {
   useEffect,
   useState,
 } from "react"
+import { Doc } from "@/types"
 import { v4 as uuidv4 } from "uuid"
 
 import { default_mk_docs } from "@/lib/utils"
 
-interface Document {
-  doc_id: string
-  file_name: string
-  content: string
-  createdAt: string
-}
-
-type Documents = Document[]
-
 interface MarkdownContextProps {
   markdown: string
-  documents: Document[]
-  currentDoc: number | false
+  documents: Doc[]
+  currentDoc: Doc
   addDoc: (name: string) => void
   handleMarkdownChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
-  selectDoc: (index: number) => void
-  deleteDoc: (index: number) => void
-  editNameDoc: (index: number, name: string) => void
-  saveDoc: (index: number) => void
+  selectDoc: (id: string) => void
+  deleteDoc: (id: string) => void
+  editFileName: (id: string, name: string) => void
+  saveDoc: (id: string) => void
   view: boolean
   setView: (value: boolean) => void
 }
@@ -45,30 +37,21 @@ interface MarkdownProviderProps {
 export const MarkdownProvider = ({ children }: MarkdownProviderProps) => {
   const [view, setView] = useState<boolean>(true)
   const [markdown, setMarkdown] = useState<string>("")
-  const [documents, setDocuments] = useState<Documents>([])
-  const [currentDoc, setCurrentDoc] = useState<number | false>(false)
+  const [documents, setDocuments] = useState<Doc[]>([])
+  const [currentDoc, setCurrentDoc] = useState<Doc>(documents[0])
 
   useEffect(() => {
-    if (!localStorage.getItem("mk-docs")) {
+    const storedDocs = localStorage.getItem("mk-docs")
+    if (!storedDocs) {
       localStorage.setItem("mk-docs", JSON.stringify(default_mk_docs))
-      setCurrentDoc(0)
+      setCurrentDoc(default_mk_docs[0])
       setDocuments(default_mk_docs)
       setMarkdown(default_mk_docs[0].content)
-    }
-
-    if (
-      localStorage.getItem("mk-docs") &&
-      JSON.parse(localStorage.getItem("mk-docs") || "[]").length === 0
-    ) {
-      setDocuments([])
-      setCurrentDoc(false)
     } else {
-      const parsedDocuments = JSON.parse(
-        localStorage.getItem("mk-docs") || "[]"
-      )
+      const parsedDocuments = JSON.parse(storedDocs)
       setDocuments(parsedDocuments)
+      setCurrentDoc(parsedDocuments[0])
       setMarkdown(parsedDocuments[0].content)
-      setCurrentDoc(0)
     }
   }, [])
 
@@ -76,13 +59,16 @@ export const MarkdownProvider = ({ children }: MarkdownProviderProps) => {
     setMarkdown(e.target.value)
   }
 
-  const selectDoc = (index: number) => {
-    setCurrentDoc(index)
-    setMarkdown(documents[index].content)
+  const selectDoc = (id: string) => {
+    const document: Doc | undefined = documents.find((doc) => doc.doc_id === id)
+    if (document) {
+      setCurrentDoc(document)
+      setMarkdown(document.content)
+    }
   }
 
   const addDoc = (name: string) => {
-    const newDoc: Document = {
+    const newDoc: Doc = {
       doc_id: uuidv4(),
       file_name: name,
       content: "",
@@ -91,56 +77,48 @@ export const MarkdownProvider = ({ children }: MarkdownProviderProps) => {
 
     setDocuments([...documents, newDoc])
     localStorage.setItem("mk-docs", JSON.stringify([...documents, newDoc]))
-    setCurrentDoc(documents.length)
+    setCurrentDoc(newDoc)
     setMarkdown(newDoc.content)
   }
 
-  const deleteDoc = (index: number) => {
-    setDocuments(documents.filter((doc, i) => i !== index))
-    localStorage.setItem(
-      "mk-docs",
-      JSON.stringify(documents.filter((doc, i) => i !== index))
-    )
+  const deleteDoc = (id: string) => {
+    const updatedDocs = documents.filter((doc) => doc.doc_id !== id)
+    setDocuments(updatedDocs)
+    localStorage.setItem("mk-docs", JSON.stringify(updatedDocs))
 
-    if (documents.length === 1) {
-      setCurrentDoc(false)
-      setMarkdown("")
+    if (updatedDocs.length === 1) {
+      setCurrentDoc(updatedDocs[0])
+      setMarkdown(updatedDocs[0].content)
+    } else if (updatedDocs.length > 1) {
+      setCurrentDoc(updatedDocs[updatedDocs.length - 2])
+      setMarkdown(updatedDocs[updatedDocs.length - 2].content)
     } else {
-      setCurrentDoc(documents.length - 2)
-      setMarkdown(documents[documents.length - 2].content)
+      const new_doc: Doc = {
+        doc_id: uuidv4(),
+        file_name: "Untitled.md",
+        content: "",
+        createdAt: new Date().toLocaleDateString("en-US"),
+      }
+      setCurrentDoc(new_doc)
+      setMarkdown("")
+      setDocuments([new_doc])
     }
   }
 
-  const editNameDoc = (index: number, name: string) => {
-    setDocuments(
-      documents.map((doc, i) =>
-        index === i ? { ...doc, file_name: name } : doc
-      )
+  const editFileName = (id: string, name: string) => {
+    const updatedDocs = documents.map((doc) =>
+      doc.doc_id === id ? { ...doc, file_name: name } : doc
     )
-    localStorage.setItem(
-      "mk-docs",
-      JSON.stringify(
-        documents.map((doc, i) =>
-          index === i ? { ...doc, file_name: name } : doc
-        )
-      )
-    )
+    setDocuments(updatedDocs)
+    localStorage.setItem("mk-docs", JSON.stringify(updatedDocs))
   }
 
-  const saveDoc = (index: number) => {
-    setDocuments(
-      documents.map((doc, i) =>
-        index === i ? { ...doc, content: markdown } : doc
-      )
+  const saveDoc = (id: string) => {
+    const updatedDocs = documents.map((doc) =>
+      doc.doc_id === id ? { ...doc, content: markdown } : doc
     )
-    localStorage.setItem(
-      "mk-docs",
-      JSON.stringify(
-        documents.map((doc, i) =>
-          index === i ? { ...doc, content: markdown } : doc
-        )
-      )
-    )
+    setDocuments(updatedDocs)
+    localStorage.setItem("mk-docs", JSON.stringify(updatedDocs))
   }
 
   return (
@@ -153,7 +131,7 @@ export const MarkdownProvider = ({ children }: MarkdownProviderProps) => {
         handleMarkdownChange,
         selectDoc,
         deleteDoc,
-        editNameDoc,
+        editFileName,
         saveDoc,
         view,
         setView,

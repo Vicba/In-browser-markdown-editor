@@ -1,5 +1,6 @@
 import React from "react"
 import { useMarkdownContext } from "@/context/MarkdownContext"
+import { Doc } from "@/types"
 import {
   DownloadIcon,
   PencilIcon,
@@ -7,7 +8,6 @@ import {
   Trash2Icon,
 } from "lucide-react"
 
-import { doc } from "@/types/markdown_docs"
 import {
   Tooltip,
   TooltipContent,
@@ -19,21 +19,20 @@ import { DialogCloseButton } from "./dialogCloseButton"
 import { toast } from "./ui/use-toast"
 
 type Props = {
-  itemIdx: number
-  handleDownload: (doc: doc) => void
-  document: doc
+  doc_id: string
+  handleDownload: (doc: Doc) => void
+  document: Doc
 }
 
 export default function CustomTooltip({
   handleDownload,
   document,
-  itemIdx,
+  doc_id,
 }: Props) {
   const { deleteDoc } = useMarkdownContext()
 
-  const handleDelete = (index: number) => {
-    console.log("Delete", index)
-    deleteDoc(index)
+  const handleDelete = (id: string) => {
+    deleteDoc(id)
     toast({
       title: "Document Deleted",
       description: "Document has been deleted",
@@ -41,7 +40,7 @@ export default function CustomTooltip({
   }
 
   return (
-    <TooltipProvider>
+    <TooltipProvider delayDuration={200}>
       <Tooltip>
         <TooltipTrigger>
           <SettingsIcon
@@ -50,13 +49,13 @@ export default function CustomTooltip({
           />
         </TooltipTrigger>
         <TooltipContent className="flex flex-row gap-2">
-          <DialogCloseButton
+          {/* <DialogCloseButton
             title="Edit File Name"
             description="Type your new file name"
             defaultValue={document.file_name}
             btnSubmitTxt="Save"
             type="edit"
-          />
+          /> */}
           <DownloadIcon
             size={18}
             className="cursor-pointer"
@@ -66,7 +65,7 @@ export default function CustomTooltip({
             size={18}
             color="red"
             className="cursor-pointer"
-            onClick={() => handleDelete(itemIdx)}
+            onClick={() => handleDelete(doc_id)}
           />
         </TooltipContent>
       </Tooltip>
