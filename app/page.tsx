@@ -20,10 +20,10 @@ export default function IndexPage() {
   const options = { code: CodeBlock, pre: Pre }
 
   return (
-    <div className="container h-screen  items-center pb-8 pt-6 md:py-5">
+    <div className="container h-screen  items-center pb-8 pt-6 md:py-5 overflow-hidden">
       <ResizablePanelGroup
         direction="horizontal"
-        className="max-h-full min-w-full rounded-lg border overflow"
+        className="max-h-full min-w-full rounded-lg border"
       >
         <ResizablePanel defaultSize={view ? 50 : 100}>
           <Textarea
@@ -33,9 +33,7 @@ export default function IndexPage() {
             value={markdown}
             autoFocus
             placeholder="Type your markdown here..."
-          >
-            <ScrollArea className="h-full w-full"></ScrollArea>
-          </Textarea>
+          ></Textarea>
         </ResizablePanel>
         {view && <ResizableHandle withHandle />}
         <ResizablePanel
@@ -45,7 +43,7 @@ export default function IndexPage() {
           <ScrollArea className="h-full w-full">
             <Markdown
               components={options}
-              className="h-full min-w-full p-6 prose dark:prose-invert text-xs "
+              className="h-full min-w-full p-6 prose dark:prose-invert text-xs"
             >
               {markdown}
             </Markdown>
