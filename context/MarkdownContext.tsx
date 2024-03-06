@@ -55,10 +55,6 @@ export const MarkdownProvider = ({ children }: MarkdownProviderProps) => {
     }
   }, [])
 
-  const handleMarkdownChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setMarkdown(e.target.value)
-  }
-
   const selectDoc = (id: string) => {
     const document: Doc | undefined = documents.find((doc) => doc.doc_id === id)
     if (document) {
@@ -117,6 +113,19 @@ export const MarkdownProvider = ({ children }: MarkdownProviderProps) => {
     const updatedDocs = documents.map((doc) =>
       doc.doc_id === id ? { ...doc, content: markdown } : doc
     )
+    setDocuments(updatedDocs)
+    localStorage.setItem("mk-docs", JSON.stringify(updatedDocs))
+  }
+
+  const handleMarkdownChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setMarkdown(e.target.value)
+
+    const updatedDocs = documents.map((doc) =>
+      doc.doc_id === currentDoc.doc_id
+        ? { ...doc, content: e.target.value }
+        : doc
+    )
+
     setDocuments(updatedDocs)
     localStorage.setItem("mk-docs", JSON.stringify(updatedDocs))
   }

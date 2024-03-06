@@ -13,16 +13,7 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { toast } from "./ui/use-toast"
 
 export function SiteHeader() {
-  const { currentDoc, saveDoc, view, setView } = useMarkdownContext()
-
-  const save = () => {
-    if (currentDoc === null) {
-      alert("Please create a new document first!")
-    } else {
-      saveDoc(currentDoc.doc_id)
-      toast({ title: "Success!", description: "Your document has been saved." })
-    }
-  }
+  const { currentDoc, view, setView } = useMarkdownContext()
 
   const changeView = () => {
     setView(!view)
@@ -33,6 +24,14 @@ export function SiteHeader() {
       <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
         <MainNav items={siteConfig.mainNav} />
         <div className="flex flex-1 items-center justify-between space-x-4">
+          <div className="flex flex-row gap-8 items-center ml-5">
+            <div className="hidden md:block">
+              {currentDoc ? currentDoc.file_name : "Untitled.md"}
+            </div>
+            <div onClick={changeView} className="cursor-pointer">
+              {view ? <EyeIcon size={20} /> : <EyeOffIcon size={20} />}
+            </div>
+          </div>
           <nav className="hidden sm:visible sm:flex items-center space-x-1 ml-5">
             <Link
               href={siteConfig.links.github}
@@ -66,23 +65,6 @@ export function SiteHeader() {
             </Link>
             <ThemeToggle />
           </nav>
-          <div className="flex flex-row gap-8 items-center">
-            <div className="hidden md:block">
-              {currentDoc ? currentDoc.file_name : "Untitled.md"}
-            </div>
-            <div onClick={changeView} className="cursor-pointer">
-              {view ? <EyeIcon size={20} /> : <EyeOffIcon size={20} />}
-            </div>
-            <Button
-              className="flex flex-row gap-3 text-xs sm:text-sm"
-              onClick={save}
-            >
-              <span className="flex flex-row gap-1">
-                Save <span className="hidden sm:block">Document</span>
-              </span>
-              <SaveIcon size={20} />
-            </Button>
-          </div>
         </div>
       </div>
     </header>
