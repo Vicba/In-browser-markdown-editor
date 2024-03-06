@@ -4,6 +4,7 @@ import { useMarkdownContext } from "@/context/MarkdownContext"
 import Markdown from "react-markdown"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 import { materialOceanic } from "react-syntax-highlighter/dist/cjs/styles/prism"
+import remarkGfm from "remark-gfm"
 
 import { cn } from "@/lib/utils"
 import {
@@ -42,6 +43,7 @@ export default function IndexPage() {
         >
           <ScrollArea className="h-full w-full">
             <Markdown
+              remarkPlugins={[remarkGfm]}
               components={options}
               className="h-full min-w-full p-6 prose dark:prose-invert text-xs"
             >

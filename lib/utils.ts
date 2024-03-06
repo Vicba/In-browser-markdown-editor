@@ -26,7 +26,7 @@ export const default_mk_docs: Doc[] = [
 export const downloadFile = (file_name: string, content: string): void => {
   const fileNameWithExtension = file_name.endsWith(".md")
     ? file_name
-    : `${file_name}.md`
+    : `${file_name.replace(/\./g, "_")}.md`
 
   // Create a Blob with the file content
   const blob = new Blob([content], { type: "text/plain" })

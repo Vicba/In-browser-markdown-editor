@@ -16,6 +16,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
+import { toast } from "./ui/use-toast"
+
 type Props = {
   btnText?: string
   title: string
@@ -36,12 +38,26 @@ export function DialogCloseButton({
   const [inputValue, setInputValue] = useState<string>(defaultValue)
   const { addDoc, editFileName } = useMarkdownContext()
 
+  const isValidFileName = (file_name: string): boolean => {
+    const isPlainText = /^[^.]+$/.test(file_name)
+    const isMarkdownFile = file_name.endsWith(".md")
+    return isPlainText || isMarkdownFile
+  }
+
   const handleCreateNewDocument = (file_name: string) => {
     if (file_name === "") {
-      alert("Please enter a file name")
+      toast({ title: "Please enter a file name" })
       return
     }
-    addDoc(file_name)
+
+    if (isValidFileName(file_name)) {
+      addDoc(file_name)
+    } else {
+      toast({
+        title: "Invalid file name",
+        description: " Please use a valid file name.",
+      })
+    }
   }
 
   // const handleEditDocument = (file_name: string) => {
