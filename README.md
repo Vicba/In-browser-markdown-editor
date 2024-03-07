@@ -2,6 +2,7 @@
 
 I found this challenge at frontendmentor.io [here](https://www.frontendmentor.io/challenges/inbrowser-markdown-editor-r16TrrQX9).
 
+I personally use this project as an open browser tab to quickly make personal notes or things to remember while browsing other tabs.
 I didn't want to spend a monthly subscription for this on the platform because I'm a broke student. So I took the idea and build it with my own twist. (Which is way more fun) 🙃
 
 Right now, I like the current project state. It's quick and easy to use. I might add more features later if I change my mind.
@@ -48,6 +49,7 @@ npm run dev
 - Adding markdown to a project is easier then I thought.
 - Refreshed my knowledge of Tailwind CSS and react context
 - "Failing to plan is planning to fail." - Benjamin Franklin (but made it 😃)
+- KISS -> keep it stupid simple
 
 ## 😮 Features
 
